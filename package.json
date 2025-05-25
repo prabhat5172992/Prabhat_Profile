@@ -7,16 +7,15 @@
     "type": "git",
     "url": ""
   },
-  "homepage": "https://yourusername.github.io/Prabhat_Profile",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:gh-pages": "vite build --base=/Prabhat_Profile/",
     "test": "vitest",
-    "test:ci": "vitest --run --coverage",
+    "test:run": "vitest --run",
+    "test:coverage": "vitest --run --coverage",
     "test:watch": "vitest --watch",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
