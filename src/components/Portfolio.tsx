@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  ChevronDown,
   Mail,
   Phone,
   MapPin,
-  Code,
-  Briefcase,
   GraduationCap,
-  User,
-  Folder,
-  ExternalLink,
   Award,
-  Calendar,
   Building,
-  Globe,
   Download,
   CheckCircle,
 } from 'lucide-react';
