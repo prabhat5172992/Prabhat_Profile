@@ -1,11 +1,20 @@
 {
   "name": "profile",
+  "description": "A personal profile page built with React, TypeScript, and Tailwind CSS.",
+  "author": "Prabhat Ranjan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "https://yourusername.github.io/Prabhat_Profile",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "vitest",
     "lint": "eslint .",
     "preview": "vite preview"
   },
