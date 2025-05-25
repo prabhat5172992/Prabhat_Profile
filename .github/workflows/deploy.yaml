@@ -1,11 +1,5 @@
 name: Deploy React App
 
-# Add permissions for GitHub token
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 on:
   push:
     branches: [ main ]
@@ -30,17 +24,18 @@ jobs:
       run: npm install
       
     - name: Build project
-      run: npm run build:gh-pages
+      run: npm run build
+      
+    - name: List build output (debug)
+      run: ls -la dist/
       
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist
-        
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        force_orphan: true
