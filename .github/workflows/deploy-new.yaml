@@ -24,17 +24,16 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Create .nojekyll file
-        run: echo > dist/.nojekyll
-
-      - name: Debug build output
+      - name: Copy build to docs folder
         run: |
-          echo "Contents of dist:"
-          find dist/
+          rm -rf docs
+          mkdir docs
+          cp -r dist/* docs/
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages on main branch (docs folder)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
+          publish_dir: ./docs
+          publish_branch: main
+          force_orphan: false
