@@ -1,54 +1,80 @@
-# React + TypeScript + Vite
+# Prabhat Ranjan – Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website built with **React**, **TypeScript**, and **Tailwind CSS**.  
+Showcasing my professional experience, projects, skills, and contact information.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Responsive, modern UI with Tailwind CSS
+- Professional summary, experience, and education sections
+- Project highlights with technology stack and key features
+- Downloadable resume (PDF)
+- Contact form (mailto)
+- Social media links (GitHub, LinkedIn, X, Instagram)
+- Mobile-friendly navigation with hamburger menu
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide React Icons](https://lucide.dev/)
+- [jsPDF](https://github.com/parallax/jsPDF) (for dynamic PDF resume)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 📦 Project Structure
+
+```
+├── public/
+│   ├── portfolio.svg
+│   └── resume/
+│       └── Prabhat_Ranjan_Combined_Resume.pdf
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── Portfolio.tsx
+│   │   └── Profile-old.tsx
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── package.json
+├── tailwind.config.js
+├── vite.config.ts
+└── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🖥️ Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+2. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
+
+3. **Build for production:**
+   ```sh
+   npm run build
+   ```
+
+4. **Preview production build:**
+   ```sh
+   npm run preview
+   ```
+
+## 📝 Customization
+
+- Update your profile, experience, and projects in [`src/components/Portfolio.tsx`](src/components/Portfolio.tsx).
+- Replace the profile image in [`src/assets/pic.jpeg`](src/assets/pic.jpeg).
+- Update your resume PDF in [`public/resume/Prabhat_Ranjan_Combined_Resume.pdf`](public/resume/Prabhat_Ranjan_Combined_Resume.pdf).
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+> Crafted with ❤️ by Prabhat Ranjan
