@@ -595,8 +595,8 @@ PROJECTS:
                 </button>
               </div>
             </div>
-            <div className="lg:w-1/2 lg:pl-12">
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div className="lg:w-1/2 lg:pl-12 flex justify-end">
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 w-full max-w-md">
                 {/* Profile Image Placeholder above Professional Highlights */}
                 <div className="text-center mb-6">
                   <div className="w-32 h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-4xl font-bold shadow-lg border-4 border-white">
@@ -615,7 +615,7 @@ PROJECTS:
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Specialization</span>
-                    <span className="font-semibold">React & Redux, Python</span>
+                    <span className="font-semibold ml-4 md:ml-0">React & Redux, Python</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Industries</span>
