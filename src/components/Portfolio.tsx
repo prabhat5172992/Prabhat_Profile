@@ -8,6 +8,8 @@ import {
   Building,
   Download,
   CheckCircle,
+  Menu,
+  X,
 } from 'lucide-react';
 import profilePic from '../assets/pic.jpeg';
 
@@ -15,6 +17,7 @@ const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -55,6 +58,37 @@ const Portfolio = () => {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hamburgerButton = document.getElementById('hamburger-button');
+
+      if (isMobileMenuOpen && mobileMenu && hamburgerButton) {
+        if (!mobileMenu.contains(event.target as Node) && !hamburgerButton.contains(event.target as Node)) {
+          setIsMobileMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobileMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   // Function to download pre-stored PDF or generate from content if not present
   const downloadCV = async () => {
@@ -182,8 +216,9 @@ PROJECTS:
     { name: 'HTML5/CSS3', level: 96, category: 'Frontend' },
     { name: 'Node.js', level: 85, category: 'Backend' },
     { name: 'Express.js', level: 82, category: 'Backend' },
+    { name: 'Python', level: 70, category: 'Backend' },
     { name: 'MongoDB', level: 80, category: 'Database' },
-    { name: 'Python', level: 70, category: 'Database' }
+    { name: 'SQL', level: 80, category: 'Database' }
   ];
 
   const experiences = [
@@ -356,13 +391,14 @@ PROJECTS:
     targetId: string;
     children: React.ReactNode;
     className?: string;
+    onClick?: () => void;
   };
 
-  const ScrollToSection: React.FC<ScrollToSectionProps> = ({ targetId, children, className = "" }) => (
+  const ScrollToSection: React.FC<ScrollToSectionProps> = ({ targetId, children, className = "", onClick }) => (
     <button
       onClick={() => {
-        // setActiveSection(targetId); // Set active section immediately on click
         document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+        if (onClick) onClick();
       }}
       className={`transition-all duration-300 ${className}`}
       type="button"
@@ -400,6 +436,8 @@ PROJECTS:
                 Prabhat Ranjan
               </div>
             </div>
+
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {navigationItems.map((item) => (
                 <ScrollToSection key={item.id} targetId={item.id}>
@@ -409,6 +447,101 @@ PROJECTS:
                   </span>
                 </ScrollToSection>
               ))}
+            </div>
+
+            {/* Mobile Hamburger Button */}
+            <div className="md:hidden">
+              <button
+                id="hamburger-button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label="Toggle mobile menu"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6 text-gray-700" />
+                ) : (
+                  <Menu className="w-6 h-6 text-gray-700" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" />
+        )}
+
+        {/* Mobile Menu */}
+        <div
+          id="mobile-menu"
+          className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
+        >
+          <div className="flex flex-col h-full">
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  <img src={profilePic} alt="Profile" className="w-full h-full rounded-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                </div>
+                <span className="text-lg font-bold text-gray-900">Menu</span>
+              </div>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5 text-gray-700" />
+              </button>
+            </div>
+
+            {/* Mobile Menu Items */}
+            <div className="flex-1 overflow-y-auto py-4">
+              <div className="space-y-2 px-4">
+                {navigationItems.map((item) => (
+                  <ScrollToSection
+                    key={item.id}
+                    targetId={item.id}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full text-left"
+                  >
+                    <div className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${activeSection === item.id
+                        ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                      }`}>
+                      <span className="font-medium">{item.label}</span>
+                      {activeSection === item.id && (
+                        <div className="w-2 h-2 bg-blue-600 rounded-full ml-auto" />
+                      )}
+                    </div>
+                  </ScrollToSection>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Menu Footer */}
+            <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="space-y-3">
+                <a
+                  href="mailto:prabhat5172992@gmail.com"
+                  className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Get In Touch</span>
+                </a>
+                <button
+                  onClick={() => {
+                    downloadCV();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-center space-x-2 w-full border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-gray-50"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download CV</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -508,13 +641,10 @@ PROJECTS:
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Professional Journey</h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                With nearly 8 years in the industry, I've evolved from a junior developer to a senior architect,
-                leading complex projects and mentoring teams. My expertise spans the entire React ecosystem,
-                from component architecture to state management and performance optimization.
+                With nearly 9 years in the industry, I have grown from a junior developer to a team lead, architecting complex applications and leading high-performing teams. My journey is defined by a strong focus on frontend development, especially with React.js and Redux, and a passion for building robust, user-friendly solutions. I am committed to delivering scalable, maintainable, and user-centric applications for enterprise clients.
               </p>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                I've successfully delivered projects for major corporations including Shell India, PayPal,
-                and Visa, focusing on scalable, maintainable, and user-centric solutions.
+                I have successfully delivered projects for organizations such as Shell India, PayPal, and Visa, consistently driving excellence in software engineering and team collaboration.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center p-4 bg-blue-50 rounded-xl">
@@ -738,7 +868,7 @@ PROJECTS:
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                   <h4 className="text-lg font-semibold text-gray-900 mb-4">Backend & Tools</h4>
                   <div className="flex flex-wrap gap-2">
-                    {['Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'Git', 'Webpack', 'Agile', 'Python'].map((tech, i) => (
+                    {['Node.js', 'Express.js', 'MongoDB', 'SQL', 'REST APIs', 'Git', 'Webpack', 'Agile', 'Python'].map((tech, i) => (
                       <span key={i} className="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm">
                         {tech}
                       </span>
@@ -813,28 +943,33 @@ PROJECTS:
                   required
                 />
               </div>
-              <textarea
-                rows={5}
-                placeholder="Your Message"
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all mb-6"
-                required
-              ></textarea>
+              <div className="mb-6">
+                <textarea
+                  rows={5}
+                  placeholder="Your Message"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                  required
+                  style={{ minHeight: '120px', maxHeight: '120px' }}
+                ></textarea>
+              </div>
+              <div className="flex justify-center">
                 <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center"
-                onClick={e => {
-                  e.preventDefault();
-                  const form = e.currentTarget.form;
-                  if (!form) return;
-                  const name = (form[0] as HTMLInputElement).value;
-                  const email = (form[1] as HTMLInputElement).value;
-                  const message = (form[2] as HTMLTextAreaElement).value;
-                  const mailto = `mailto:prabhat5172992@gmail.com?subject=Contact from ${encodeURIComponent(name)} (${encodeURIComponent(email)})&body=${encodeURIComponent(message)}`;
-                  window.location.href = mailto;
-                }}
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center"
+                  onClick={e => {
+                    e.preventDefault();
+                    const form = e.currentTarget.form;
+                    if (!form) return;
+                    const name = (form[0] as HTMLInputElement).value;
+                    const email = (form[1] as HTMLInputElement).value;
+                    const message = (form[2] as HTMLTextAreaElement).value;
+                    const mailto = `mailto:prabhat5172992@gmail.com?subject=Contact from ${encodeURIComponent(name)} (${encodeURIComponent(email)})&body=${encodeURIComponent(message)}`;
+                    window.location.href = mailto;
+                  }}
                 >
-                Send Message
+                  Send Message
                 </button>
+              </div>
             </form>
           </div>
         </div>
