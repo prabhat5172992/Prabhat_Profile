@@ -22,7 +22,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "jspdf": "^3.0.1",
